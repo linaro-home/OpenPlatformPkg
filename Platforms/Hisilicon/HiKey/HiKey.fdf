@@ -214,6 +214,19 @@ READ_LOCK_STATUS   = TRUE
     SECTION RAW = OpenPlatformPkg/Platforms/Hisilicon/HiKey/FdtBlob/hi6220-hikey.dtb
   }
 
+  #
+  # HTTP Boot
+  #
+  INF MdeModulePkg/Universal/Network/SnpDxe/SnpDxe.inf
+  INF NetworkPkg/HttpDxe/HttpDxe.inf
+  INF NetworkPkg/HttpBootDxe/HttpBootDxe.inf
+  INF NetworkPkg/HttpUtilitiesDxe/HttpUtilitiesDxe.inf
+  INF NetworkPkg/DnsDxe/DnsDxe.inf
+  INF RdkPkg/Application/DriSecureBoot/DriSecureBoot.inf
+  INF RdkPkg/Application/SecureBoot/SecureBoot.inf
+  INF RdkPkg/Application/Dri/Dri.inf
+  INF RdkPkg/Dxe/RdkDxe/RdkDxe.inf
+
 [FV.FVMAIN_COMPACT]
 FvAlignment        = 8
 ERASE_POLARITY     = 1
