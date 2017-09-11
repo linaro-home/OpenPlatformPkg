@@ -204,7 +204,7 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutGopSupport|FALSE
 
   gEfiMdeModulePkgTokenSpaceGuid.PcdTurnOffUsbLegacySupport|TRUE
-
+  
 [PcdsFixedAtBuild.common]
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
   gEfiMdePkgTokenSpaceGuid.PcdMaximumAsciiStringLength|1000000
@@ -214,6 +214,12 @@
   gEfiMdePkgTokenSpaceGuid.PcdPerformanceLibraryPropertyMask|1
   gEfiMdePkgTokenSpaceGuid.PcdPostCodePropertyMask|0
   gEfiMdePkgTokenSpaceGuid.PcdUefiLibMaxPrintBufferSize|320
+
+  # Increase storage space of UEFI variable to 2KB so that it can store root certificate
+  gEfiMdeModulePkgTokenSpaceGuid.PcdMaxVariableSize|0x800
+
+  # Device path of block device on which Android Fastboot should flash partitions
+  gHwTokenSpaceGuid.PcdAndroidFastbootNvmDevicePath|L"VenHw(b549f005-4bd4-4020-a0cb-06f42bda68c3)"
 
   # DEBUG_ASSERT_ENABLED       0x01
   # DEBUG_PRINT_ENABLED        0x02
@@ -377,7 +383,6 @@
   # up to 128 characters long.
   #
 #  gEmbeddedTokenSpaceGuid.PcdFdtDevicePaths|L"                                                                                                                                "
-
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -549,3 +554,32 @@
       BdsLib|ArmPkg/Library/BdsLib/BdsLib.inf
       FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf
   }
+
+#HTTP Boot
+[Components.common]
+  MdeModulePkg/Universal/Network/SnpDxe/SnpDxe.inf
+  NetworkPkg/HttpDxe/HttpDxe.inf
+  NetworkPkg/HttpBootDxe/HttpBootDxe.inf
+  NetworkPkg/HttpUtilitiesDxe/HttpUtilitiesDxe.inf
+  NetworkPkg/DnsDxe/DnsDxe.inf
+  
+[LibraryClasses]
+  DpcLib|MdeModulePkg/Library/DxeDpcLib/DxeDpcLib.inf
+  NetLib|MdeModulePkg/Library/DxeNetLib/DxeNetLib.inf
+  IpIoLib|MdeModulePkg/Library/DxeIpIoLib/DxeIpIoLib.inf
+  UdpIoLib|MdeModulePkg/Library/DxeUdpIoLib/DxeUdpIoLib.inf
+  TcpIoLib|MdeModulePkg/Library/DxeTcpIoLib/DxeTcpIoLib.inf
+  HttpLib|MdeModulePkg/Library/DxeHttpLib/DxeHttpLib.inf
+  UefiBootManagerLib|MdeModulePkg/Library/UefiBootManagerLib/UefiBootManagerLib.inf
+  BdsLib|ArmPkg/Library/BdsLib/BdsLib.inf
+  RdkBootManagerLib|RdkPkg/Library/RdkBootManagerLib/RdkBootManagerLib.inf
+
+[PcdsFixedAtBuild]
+  gEfiNetworkPkgTokenSpaceGuid.PcdAllowHttpConnections|TRUE
+
+#RdkPkg
+[Components.common]
+  RdkPkg/Application/DriSecureBoot/DriSecureBoot.inf
+  RdkPkg/Application/SecureBoot/SecureBoot.inf
+  RdkPkg/Application/Dri/Dri.inf
+  RdkPkg/Dxe/RdkDxe/RdkDxe.inf
